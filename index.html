@@ -1,10 +1,15 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f3eee5"><meta name="description" content="A little ritual for your music. Play original ambient sketches or bring your own records to Side A."><title>Side A — A little ritual for your music</title><link rel="icon" href="assets/cover-0.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"></head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f3eee5"><meta name="description" content="Your music, a different feeling. A tactile record player for local files, Windows music apps, and music share links."><title>Side A — A little ritual for your music</title><link rel="icon" href="assets/cover-0.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="connections.css"></head>
 <body>
 <header><a class="brand" href="./" aria-label="Side A home"><span class="brand-record"></span>side a<span class="brand-dot">®</span></a><span class="header-note">A LITTLE RITUAL FOR YOUR MUSIC</span><button class="button import">↗ &nbsp; Bring your own</button></header>
 <main>
  <section class="intro"><div><p class="eyebrow">THE LISTENING DESK / VOL. 01</p><h1>Make time<br>for a <em>good record.</em></h1></div><p>Pick something you love.<br>Put the needle down.<br>Let the world wait a little.</p></section>
+ <section class="source-panel" aria-label="Music connections">
+  <div class="source-summary"><span class="source-icon" aria-hidden="true">◎</span><div><p id="source-name">From your record crate</p><p id="source-detail">Your files, or a little something from us.</p></div></div>
+  <div class="source-actions"><button class="text-button" id="back-to-crate" hidden>Back to local records</button><button class="button" id="connect-music">Connect your music ↗</button></div>
+  <div id="desktop-options" hidden><label for="desktop-player">Listening through</label><select id="desktop-player"><option value="">Choose a player</option></select><p id="connection-status" role="status" aria-live="polite"></p></div>
+ </section>
  <section class="listening-layout" aria-label="Record player">
   <div class="turntable-area"><div class="surface-caption"><span><i class="status-light"></i> <span id="deck-state">READY WHEN YOU ARE</span></span><span>33⅓ RPM · STEREO</span></div>
    <div class="turntable" id="drop-zone">
@@ -12,12 +17,14 @@
     <button class="tonearm" id="needle" aria-label="Lower needle and play" title="Lift or lower the needle"><span class="pivot"></span><span class="arm"></span><span class="cartridge"></span></button>
     <div class="deck-brand">SA—01<small>ANALOG STATE OF MIND</small></div><button class="power" id="power" aria-label="Play record"><span></span></button><div class="deck-foot left"></div><div class="deck-foot right"></div>
    </div>
-   <p class="hint">Drag a sleeve onto the turntable, or tap a record to play.</p>
+   <p class="hint" id="deck-hint">Drag a sleeve onto the turntable, or tap a record to play.</p>
+   <section id="link-section" class="link-section" aria-label="Connected music player" hidden><div class="link-heading"><span id="link-provider"></span><a id="open-provider" target="_blank" rel="noopener noreferrer">Open in music service ↗</a></div><div id="link-player"></div><p class="embed-note">Playback is provided by the music service. Sign-in, previews, and availability depend on your account and browser. If the player stays blank, use the service link above.</p></section>
   </div>
   <aside class="now-playing"><p class="eyebrow">ON THE TURNTABLE</p><div class="sleeve-wrap"><img id="sleeve" src="assets/cover-0.svg" alt="Golden hour album artwork"></div><div class="track-heading"><div><h2 id="title">Golden hour</h2><p id="artist">The Quiet Hours</p></div><span class="side-badge">A1</span></div>
    <div class="seek-labels"><span id="elapsed">0:00</span><span id="duration">0:48</span></div><input id="seek" type="range" value="0" min="0" max="48" step="0.1" aria-label="Playback position">
    <div class="transport"><button id="repeat" class="icon-button" aria-label="Repeat track" aria-pressed="false">↻</button><button id="previous" class="icon-button" aria-label="Previous track">Ⅰ◀</button><button id="play" class="play" aria-label="Play">▶</button><button id="next" class="icon-button" aria-label="Next track">▶Ⅰ</button><span class="speed-label">33⅓</span></div>
    <div class="volume-row"><span aria-hidden="true">◖))</span><input id="volume" type="range" min="0" max="1" value=".65" step=".01" aria-label="Volume"><output id="volume-value">65%</output></div>
+   <p id="control-note" class="control-note" hidden></p>
   </aside>
  </section>
  <section class="collection"><div class="section-heading"><div><p class="eyebrow">GOOD THINGS, ON REPEAT</p><h2>Your record crate<span id="count">03</span></h2></div><p>Original ambient sketches.<br>Room for your favorites.</p></div><div class="crate" id="crate"></div></section>
@@ -27,4 +34,13 @@
 <input id="files" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac" multiple hidden>
 <dialog id="shortcuts"><h2>Take it slow.</h2><p><kbd>Space</kbd> Play / pause</p><p><kbd>←</kbd> Back 5 seconds &nbsp; <kbd>→</kbd> Forward 5 seconds</p><p>Click the tonearm to lift or lower the needle.<br>Imported files stay in this tab until you close it.</p><form method="dialog"><button class="button">Back to the music</button></form></dialog>
 <script type="module" src="app.js"></script>
+<dialog id="connections" aria-labelledby="connections-title">
+ <form method="dialog" class="dialog-close"><button class="icon-button" aria-label="Close connections">×</button></form>
+ <p class="eyebrow">A PLACE FOR YOUR FAVORITES</p><h2 id="connections-title">Your music.<br><em>A different feeling.</em></h2>
+ <section class="desktop-card"><span class="connection-tag">WINDOWS · NO DEVELOPER ACCOUNT</span><h3>Follow your desktop player</h3><p>Play a song in Spotify, then let Side A take the controls. Other apps work too when they share playback with Windows.</p><button class="button filled" id="connect-desktop">Connect to Windows</button>
+  <div id="local-setup" hidden><ol><li><a href="https://github.com/4onv/vinyl-desk/archive/refs/heads/main.zip">Download Side A</a> and extract the ZIP.</li><li>Install <a href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer">Node.js 20 or newer</a>, then double-click <strong>Start.cmd</strong>.</li><li>Start a song in Spotify. In the local Side A window, choose <strong>Connect to Windows</strong>.</li></ol><p>The desktop connection runs on your PC. This hosted page cannot read your Windows players.</p></div>
+ </section>
+ <div class="connection-divider"><span>OR PASTE SOMETHING YOU LOVE</span></div>
+ <form id="music-link-form"><label for="music-link">Spotify · Apple Music · SoundCloud · YouTube</label><div class="link-input-row"><input id="music-link" type="text" inputmode="url" autocomplete="off" placeholder="Paste a music share link…" required><button class="button filled" type="submit">Load player</button></div><p id="link-error" class="form-error" role="alert"></p><p class="privacy-note">Loads the service’s official player when you submit. Some players offer previews. Your music files and desktop connection stay local.</p></form>
+</dialog>
 </body></html>

@@ -1,0 +1,51 @@
+[hidden]{display:none!important}
+button:disabled,input:disabled{cursor:default;opacity:.35}
+button:disabled:hover{transform:none}
+.source-panel{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;padding:18px 21px;margin:0 0 33px;border:1px solid var(--line);border-radius:6px;background:#e9eadf88}
+.source-summary{display:flex;align-items:center;gap:14px;min-width:0}
+.source-icon{font-size:32px;color:#789171;line-height:1}
+.source-summary p{margin:0;font-size:12px;font-weight:600}
+.source-summary p+p{font-size:11px;font-weight:400;color:#6b7468;margin-top:5px}
+.source-actions{display:flex;align-items:center;gap:16px}
+.source-actions .button{font-size:12px;background:var(--paper)}
+.source-actions .button:hover{background:var(--ink)}
+#desktop-options{width:100%;border-top:1px solid var(--line);padding-top:14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+#desktop-options label{font-size:11px;color:var(--muted)}
+#desktop-player{max-width:100%;min-width:160px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--ink);font:12px 'DM Sans',sans-serif;padding:8px}
+#connection-status{flex:1 1 280px;font-size:11px;margin:0;line-height:1.6;color:#6b7468}
+.control-note{font-size:10px;color:#6b7468;line-height:1.6;margin:15px 0 0}
+.sleeve-wrap img{aspect-ratio:1;object-fit:contain}
+.now-playing{align-self:start}
+.link-section{padding:18px;border:1px solid var(--line);border-radius:7px;margin-top:24px;min-width:0}
+.link-heading{display:flex;align-items:center;justify-content:space-between;font-size:11px;margin-bottom:15px;gap:10px}
+.link-heading>span{font-weight:600}
+.link-heading a{color:var(--ink);text-underline-offset:4px;font-size:10px}
+#link-player{min-height:160px;font-size:13px;color:var(--muted)}
+#link-player iframe{display:block;border:0;border-radius:8px;width:100%;max-width:100%}
+.embed-note,.privacy-note{font-size:10px;line-height:1.7;color:#6b7468;margin-bottom:0}
+#connections{width:580px;max-width:calc(100vw - 32px);max-height:calc(100dvh - 40px);padding:34px;overflow:auto}
+#connections>.eyebrow{font-size:9px;margin:0 0 16px}
+#connections h2{font-size:43px;line-height:1.05;margin:0 0 24px}
+#connections h2 em{color:#ad643c;font-weight:400}
+.dialog-close{position:absolute;right:12px;top:10px}
+.dialog-close button{font-size:26px;padding:5px 10px}
+.desktop-card{background:#e4e7db;border-radius:6px;padding:21px}
+.connection-tag{color:#687560;font-size:8px;letter-spacing:1.3px;font-weight:600}
+.desktop-card h3{font-size:17px;letter-spacing:-.3px;margin:12px 0 7px}
+.desktop-card p{font-size:12px;line-height:1.7;margin:0 0 16px;color:#66705f}
+.filled{background:var(--ink);color:var(--paper);font-size:12px}
+.filled:hover{background:#445946}
+#local-setup{margin-top:16px;border-top:1px solid #c5cbb8;padding-top:10px}
+#local-setup ol{padding-left:18px;font-size:12px;line-height:1.7}
+#local-setup li{margin-bottom:8px}
+#local-setup a{color:var(--ink);text-underline-offset:3px}
+#local-setup p{font-size:10px;margin-bottom:0}
+.connection-divider{display:flex;align-items:center;gap:12px;margin:24px 0 21px;font-size:8px;letter-spacing:1.3px;color:#77806e}
+.connection-divider:before,.connection-divider:after{content:'';height:1px;background:var(--line);flex:1}
+#music-link-form>label{display:block;font-size:11px;margin-bottom:10px}
+.link-input-row{display:flex;gap:8px}
+#music-link{min-width:0;flex:1;border:1px solid #c8cebc;border-radius:4px;background:#faf8f2;padding:12px;font-size:12px;color:var(--ink)}
+.form-error{font-size:11px;line-height:1.6;color:#a7492f;margin:9px 0 0}
+.form-error:empty{display:none}
+@media(max-width:850px){.source-summary p+p{max-width:280px;line-height:1.6}.source-panel{padding:15px}.source-actions{gap:10px}}
+@media(max-width:620px){.source-panel{gap:14px;margin-bottom:28px}.source-summary p+p{max-width:none}.source-actions{width:100%;justify-content:space-between}.source-actions .button{margin-left:auto}.source-summary{gap:12px}.source-icon{font-size:28px}#connections{padding:26px 21px}#connections h2{font-size:36px}.desktop-card{padding:17px}.link-input-row{flex-wrap:wrap}#music-link{flex-basis:100%}.link-input-row button{width:100%}.control-note{margin-left:-104px;margin-top:18px}.link-section{padding:12px}#link-player iframe{min-height:200px}.source-summary p{font-size:12px}.source-summary p+p{font-size:10px}}
