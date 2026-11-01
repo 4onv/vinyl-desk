@@ -1,5 +1,7 @@
 # Side A
 
+**[Open the app](https://4onv.github.io/vinyl-desk/)**
+
 A tactile vinyl player for your own music.
 
 ![App preview](assets/preview.jpg)
