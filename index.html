@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f3eee5"><meta name="description" content="A little ritual for your music. Play original ambient sketches or bring your own records to Side A."><title>Side A — A little ritual for your music</title><link rel="icon" href="assets/cover-0.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><a class="brand" href="./" aria-label="Side A home"><span class="brand-record"></span>side a<span class="brand-dot">®</span></a><span class="header-note">A LITTLE RITUAL FOR YOUR MUSIC</span><button class="button import">↗ &nbsp; Bring your own</button></header>
+<main>
+ <section class="intro"><div><p class="eyebrow">THE LISTENING DESK / VOL. 01</p><h1>Make time<br>for a <em>good record.</em></h1></div><p>Pick something you love.<br>Put the needle down.<br>Let the world wait a little.</p></section>
+ <section class="listening-layout" aria-label="Record player">
+  <div class="turntable-area"><div class="surface-caption"><span><i class="status-light"></i> <span id="deck-state">READY WHEN YOU ARE</span></span><span>33⅓ RPM · STEREO</span></div>
+   <div class="turntable" id="drop-zone">
+    <div class="platter"><div class="record" id="record"><div class="record-shine"></div><div class="record-label"><span>SIDE A</span><img id="record-cover" src="assets/cover-0.svg" alt="Golden hour record label"><small>THE QUIET HOURS</small><b class="spindle"></b></div></div></div>
+    <button class="tonearm" id="needle" aria-label="Lower needle and play" title="Lift or lower the needle"><span class="pivot"></span><span class="arm"></span><span class="cartridge"></span></button>
+    <div class="deck-brand">SA—01<small>ANALOG STATE OF MIND</small></div><button class="power" id="power" aria-label="Play record"><span></span></button><div class="deck-foot left"></div><div class="deck-foot right"></div>
+   </div>
+   <p class="hint">Drag a sleeve onto the turntable, or tap a record to play.</p>
+  </div>
+  <aside class="now-playing"><p class="eyebrow">ON THE TURNTABLE</p><div class="sleeve-wrap"><img id="sleeve" src="assets/cover-0.svg" alt="Golden hour album artwork"></div><div class="track-heading"><div><h2 id="title">Golden hour</h2><p id="artist">The Quiet Hours</p></div><span class="side-badge">A1</span></div>
+   <div class="seek-labels"><span id="elapsed">0:00</span><span id="duration">0:48</span></div><input id="seek" type="range" value="0" min="0" max="48" step="0.1" aria-label="Playback position">
+   <div class="transport"><button id="repeat" class="icon-button" aria-label="Repeat track" aria-pressed="false">↻</button><button id="previous" class="icon-button" aria-label="Previous track">Ⅰ◀</button><button id="play" class="play" aria-label="Play">▶</button><button id="next" class="icon-button" aria-label="Next track">▶Ⅰ</button><span class="speed-label">33⅓</span></div>
+   <div class="volume-row"><span aria-hidden="true">◖))</span><input id="volume" type="range" min="0" max="1" value=".65" step=".01" aria-label="Volume"><output id="volume-value">65%</output></div>
+  </aside>
+ </section>
+ <section class="collection"><div class="section-heading"><div><p class="eyebrow">GOOD THINGS, ON REPEAT</p><h2>Your record crate<span id="count">03</span></h2></div><p>Original ambient sketches.<br>Room for your favorites.</p></div><div class="crate" id="crate"></div></section>
+ <div class="notice" id="notice" role="status" aria-live="polite"></div>
+</main>
+<footer><span>LESS SCROLLING. MORE LISTENING.</span><span>Your imported music stays on this device.</span><button class="text-button" id="help">Keyboard shortcuts ↗</button></footer>
+<input id="files" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac" multiple hidden>
+<dialog id="shortcuts"><h2>Take it slow.</h2><p><kbd>Space</kbd> Play / pause</p><p><kbd>←</kbd> Back 5 seconds &nbsp; <kbd>→</kbd> Forward 5 seconds</p><p>Click the tonearm to lift or lower the needle.<br>Imported files stay in this tab until you close it.</p><form method="dialog"><button class="button">Back to the music</button></form></dialog>
+<script type="module" src="app.js"></script>
+</body></html>

@@ -1,0 +1,10 @@
+import {test,before,after} from 'node:test';
+import assert from 'node:assert/strict';
+import {spawn} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
+let child,origin;
+before(async()=>{child=spawn(process.execPath,[fileURLToPath(new URL('./server.mjs',import.meta.url))],{env:{...process.env,PORT:'0'},windowsHide:true,stdio:['ignore','pipe','pipe']});origin=await new Promise((resolve,reject)=>{const timer=setTimeout(()=>reject(new Error('Server startup timed out')),6000);child.stdout.on('data',chunk=>{const m=chunk.toString().match(/Local: (http:\/\/127\.0\.0\.1:\d+)/);if(m){clearTimeout(timer);resolve(m[1]);}});child.on('error',reject);});});
+after(()=>child?.kill());
+test('serves the app and all directly referenced local assets',async()=>{const response=await fetch(origin);assert.equal(response.status,200);const html=await response.text();assert.match(html,/<title>/);for(const match of html.matchAll(/(?:src|href)="([^"#]+)"/g)){const target=match[1];if(target.startsWith('http')||target==='./')continue;const asset=await fetch(origin+'/'+target);assert.equal(asset.status,200,target);}});
+test('byte ranges and content lengths support media metadata and seeking',async()=>{const full=await fetch(origin+'/index.html');const bytes=Buffer.from(await full.arrayBuffer());assert.equal(Number(full.headers.get('content-length')),bytes.length);const range=await fetch(origin+'/index.html',{headers:{Range:'bytes=0-13'}});assert.equal(range.status,206);assert.equal((await range.arrayBuffer()).byteLength,14);assert.equal(range.headers.get('content-range'),'bytes 0-13/'+bytes.length);const suffix=await fetch(origin+'/index.html',{headers:{Range:'bytes=-16'}});assert.equal((await suffix.arrayBuffer()).byteLength,16);const bad=await fetch(origin+'/index.html',{headers:{Range:'bytes=99999999-'}});assert.equal(bad.status,416);});
+test('hidden files and missing resources are not served',async()=>{assert.equal((await fetch(origin+'/.git/config')).status,403);assert.equal((await fetch(origin+'/missing.svg')).status,404);});
