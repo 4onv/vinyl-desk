@@ -1,84 +1,99 @@
 # Side A
 
-**[Open the app](https://4onv.github.io/vinyl-desk/)**
+**[Open Side A](https://4onv.github.io/vinyl-desk/)** · **[Download](https://github.com/4onv/vinyl-desk/archive/refs/heads/main.zip)**
 
-A tactile vinyl player for local music, Windows music apps, and official share-link players.
+A vinyl listening desk with Spotify playback, recent album sleeves, and a record you can grab.
 
-![App preview](assets/preview.jpg)
+![Side A preview](assets/preview.jpg)
 
-## Run
+## Listen with Spotify
 
-The public website works in a browser. For desktop music controls, run Side A locally on Windows 10 (1809+) or Windows 11 with Node.js 20 or newer and the built-in Windows PowerShell 5.1. No npm dependencies, API keys, developer account, or build step.
+Open Side A in Chrome, Edge, Firefox, or Safari, choose **Connect Spotify**, and sign in with Premium. Your recently played albums appear as vinyl sleeves. Select an album to play it inside Side A; the Spotify desktop app can be closed.
+
+- Recent albums come from your Spotify listening history, with one sleeve per album and the newest first. No audio uploads.
+- Search for albums or songs without leaving Side A.
+- Play/pause, previous/next, volume, repeat, and a seek bar control the browser's Spotify device.
+- Drag the record backward or forward to seek. Playback resumes on release if it was playing before the gesture.
+- Spotify music share links also play directly when signed in.
+
+Spotify's [Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk) requires Premium and a supported browser with protected audio playback available. Some embedded browsers can sign in and load albums but fail to play audio. If that happens, Side A pauses and shows an error; open the same app in a regular supported browser.
+
+The bundled public Client ID is for this project's personal developer app. Spotify development-mode access is limited to accounts permitted in that app. Publishing this repository does not give every visitor streaming access.
+
+### Use your own developer app
+
+1. Create an app in the [Spotify developer dashboard](https://developer.spotify.com/dashboard), enabling Web API and Web Playback SDK.
+2. Register the exact callback URLs you will use:
+   - Local: `http://127.0.0.1:4311/spotify-callback.html`
+   - This deployment: `https://4onv.github.io/vinyl-desk/spotify-callback.html`
+3. Open **Music connections → Connection settings**, paste the public **Client ID**, then sign in. Forks can also replace `spotify-config.js`.
+4. Add any other permitted test accounts through the developer dashboard, within Spotify's current limits.
+
+Side A uses [Authorization Code with PKCE](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow); it never needs a client secret. Spotify requires HTTPS for hosted callbacks and allows literal loopback HTTP addresses for local development. `localhost` is not accepted as a callback host. Register another exact callback if you change the port.
+
+## Scratching and tempo
+
+**Local records produce actual scratch audio.** Grab the platter and move it in either direction. A small AudioWorklet plays decoded audio at a signed speed based on your hand movement, including reverse. Hold the record still to silence it; release to resume from the new position. A paused record stays paused after scrubbing.
+
+Open **Local records & scratch practice** or choose **Try a scratch record**. The original *Scratch study* loop has 32 beats at **96 BPM**, alongside three original ambient sketches. Local files can be selected or dropped onto the turntable. They stay on your device and need to be selected again after a reload.
+
+Spotify streams support seeking through the SDK, but do not expose audio samples or reverse playback. Spotify records therefore seek on release; they do not produce a DJ scratch effect.
+
+**RPM and BPM are different.** The platter rotates at 33⅓ revolutions per minute. The separate BPM display shows the known tempo of Scratch study, or a measurement from **Tap tempo** after at least four beats. Tapped values are marked accordingly and reset when the track changes. It does not invent automatic song tempo: Spotify's Audio Features and Audio Analysis are [unavailable to new development apps](https://developer.spotify.com/blog/2024-11-27-changes-to-the-web-api).
+
+Keyboard: **Space** plays/pauses, **←/→** seek five seconds. Focus the record and use **Home/End** to seek to the start/end.
+
+## Run locally
+
+The public app can stream Spotify directly without a local server. For local Windows media controls, or to run the app from your own files, install Node.js 20+ and run:
 
 ```sh
 node server.mjs
 ```
 
-Open http://127.0.0.1:4311. On Windows, double-click `Start.cmd` to start the server and open your browser automatically. Keep its terminal window open while listening. Close it or press Ctrl+C to stop Side A. Closing Side A does not stop Spotify.
+Open `http://127.0.0.1:4311`. On Windows, double-click **Start.cmd** to start the local server and open your default browser. Keep the terminal open while using the local page. Side A is a browser app with an optional Windows helper, rather than a separate Electron executable.
 
-To download: use **Code → Download ZIP** on GitHub, extract the ZIP, then run `Start.cmd`. Side A is a browser app with a local Windows helper, not a packaged desktop executable.
+No npm dependencies or build step. To host a fork, deploy the HTML, CSS, browser JavaScript, and `assets/` directory to a static HTTPS host and register its Spotify callback.
+
+## Other listening options
+
+Under **Music connections → Other ways to listen**:
+
+| Option | What it does |
+| --- | --- |
+| Follow a Windows player | Reads song, album, artwork, and available transport controls through Windows media sessions. Audio stays in the original app. Requires local Side A on Windows 10 (1809+) or 11. |
+| Apple Music link | Loads Apple's official embedded player. Sign-in and previews depend on the service. |
+| SoundCloud link | Loads the official SoundCloud widget for a public track or playlist. |
+| YouTube / YouTube Music link | Loads a visible official video player. |
+| Spotify link without sign-in | Loads Spotify's official embed; previews may apply. |
+
+Desktop and share-link modes remain optional. Direct Apple Music account playback through MusicKit is not implemented. Other services' embeds provide their own controls; they do not expose scratch audio.
+
+## Memory and background work
+
+Low-power mode is on by default. Side A uses CSS transforms for the platter, updates only the playback clock during progress ticks, and rebuilds sleeves only when the collection changes. Hidden tabs stop visual ticks and Spotify state polling. There is no continuously running spectrum analyser.
+
+Spotify's SDK loads only after connecting an account. The Windows helper starts only in Windows mode and exits after 20 seconds without requests. Scratch audio loads only on the first local record gesture; only one decoded record is retained, and switching records or sources releases it. Files over 32 MB or decoded buffers over 24 million samples fall back to seeking to limit scratch memory.
+
+Spotify's protected playback engine and the browser still consume resources. These changes reduce Side A's own overhead; lower lag than the Spotify app is not guaranteed on every PC.
+
+## Privacy
+
+- Spotify access and refresh tokens remain in this tab's session storage. Closing the tab normally ends the local session; browser session restoration can restore it. **Disconnect** explicitly clears tokens and Spotify history/search results. To revoke the grant itself, remove Side A in your Spotify account's connected-app settings.
+- The public Client ID and low-power preference are stored in local storage. No client secret, token, or personal listening history belongs in the repository.
+- Recent albums are held in memory and refreshed from Spotify when connecting. Imported audio uses temporary object URLs and is never uploaded.
+- Spotify content is requested directly from Spotify. Official embeds load only when requested. Fonts come from Google Fonts. There is no app analytics or tracking backend.
+- Windows metadata stays between the local browser and the hidden Windows helper. Desktop endpoints bind to loopback, reject unexpected hosts/origins, require an app header, and accept only a fixed list of playback commands.
+
+## Development and validation
 
 ```sh
 node --test
-node --check app.js
+node check.mjs
 ```
 
-The browser app is static HTML, CSS, and JavaScript. Deploy `index.html`, the CSS/JS files, and `assets/` to any static host. `server.mjs` binds only to `127.0.0.1`; its desktop API is available only from the local app.
+The tests cover OAuth state/redirect/expiry validation, PKCE, single-flight refresh, sign-out races, rate-limit backoff, targeted Spotify playback, failed-stream handling, connection cancellation, album deduplication, platter angles, tap tempo, signed scratch audio, local playback, Windows connections, API protections, and media byte ranges. The native Windows media-session check is skipped on other operating systems.
 
-## Connect your music
+`node generate-scratch.mjs` regenerates the original 96 BPM practice loop deterministically.
 
-### Follow your Windows player
-
-1. Open Spotify on this PC and start a song.
-2. In local Side A, choose **Connect your music → Connect to Windows**.
-3. Spotify is selected automatically when available. Use **Listening through** to choose another Windows player.
-
-Side A reads song, artist, album artwork, and progress through [Windows system media controls](https://learn.microsoft.com/en-us/uwp/api/windows.media.control.globalsystemmediatransportcontrolssessionmanager). The turntable sends play, pause, previous, next, and seek requests when the source app supports them. Music streams through that app; Side A does not download or capture it. Volume and repeat remain in the source app.
-
-Apple Music, browsers, and other players can appear if they expose Windows media sessions. Support and available controls depend on the player. Play a song first if the list is empty. If a selected app closes, Side A waits for it instead of controlling a different player. Switching to local audio or a share-link player pauses the connected app when supported; closing Side A simply detaches.
-
-**No Spotify developer app is required for this mode.** Spotify Premium is compatible. Direct streaming inside a custom player is a separate integration using the [Spotify Web Playback SDK](https://developer.spotify.com/documentation/web-playback-sdk/howtos/web-app-player), OAuth, a registered developer app, and Premium. That SDK integration is not included here. Direct Apple Music streaming would require [MusicKit](https://developer.apple.com/musickit/) credentials and user authorization.
-
-### Paste a share link
-
-This works on the public website too. Choose **Connect your music**, paste a full share link, and select **Load player**.
-
-| Service | Supported links | Controls |
-| --- | --- | --- |
-| Spotify | Tracks, albums, playlists, artists, shows, episodes; Spotify URIs too | Official embed; Side A play/pause and record animation follow its state. Seeking is available for episodes. |
-| Apple Music | Songs, albums, playlists | Official Apple Music player controls |
-| SoundCloud | Public tracks and playlists | Official SoundCloud widget controls |
-| YouTube / YouTube Music | Video links, including youtu.be | Visible official video player controls |
-
-Playback duration and availability depend on the service, subscription, sign-in state, region, and browser. Embeds can offer previews even when the desktop app has full access. Pasting a link does not connect a full music account. Apple Music, SoundCloud, and YouTube keep their artwork and playback state inside their players; their Side A transport buttons are disabled. For external-player metadata on the turntable, use Windows mode.
-
-Shortened Spotify/SoundCloud links need to be opened first so you can copy a full link. Unsupported URLs are rejected; Side A never inserts arbitrary pasted HTML.
-
-If an embedded player stays blank or asks you to sign in, use its **Open in…** link. Apple Music's embed did not finish loading in the in-app test browser; Apple Music playback is not verified. Spotify preview playback and SoundCloud/YouTube player loading were verified.
-
-## Features
-
-- A spinning record, wood turntable, movable needle, and draggable album sleeves.
-- Three original 48-second ambient sketches with original cover art.
-- Import local audio files; play/pause, previous/next, seek, volume, and repeat.
-- Drop audio directly onto the turntable or drag a record from the crate.
-- Keyboard controls: Space to play/pause, arrows to seek by five seconds.
-- Responsive layout and reduced-motion support.
-
-## Local audio
-
-Audio files are played using temporary browser object URLs. They are never uploaded and must be selected again after closing or reloading the tab. Actual format support depends on your browser.
-
-## Privacy and local access
-
-The Windows helper starts only after connecting. It uses built-in Windows APIs through a hidden PowerShell process; it needs no administrator access, registry changes, SDK installation, or execution-policy changes. A small C# thumbnail reader compiles using the .NET Framework already included with Windows. Song metadata stays between this helper and your local browser. No music account credentials are read or stored.
-
-Desktop endpoints reject unexpected hosts, cross-origin requests, and requests without the app header. They never enable CORS and accept only a fixed list of playback commands. Metadata responses use `no-store`. The public GitHub Pages version does not query your PC. Official embeds load only when you submit a link and connect directly to their respective services, which apply their own privacy policies.
-
-## Design and assets
-
-All illustrations, album artwork, and demo audio in this repository were created for this project. Google Fonts provides DM Sans and Instrument Serif with system-font fallbacks when offline. No runtime JavaScript dependencies.
-
-## Validation
-
-`node --test` checks local audio, share-link validation, desktop client recovery, API request validation, origin/host protection, static assets, and HTTP range requests. On Windows it also runs a read-only native media-session check; that test is skipped on other platforms. GitHub Actions runs the suite and JavaScript syntax checks. Live Spotify verification covers metadata, album artwork, and play/pause. Other desktop services require testing with their respective apps.
+Original illustrations, demo covers, and synthesized demo audio were made for this project. The Spotify logo is an unmodified official asset from [Spotify's branding resources](https://developer.spotify.com/documentation/design), used for attribution. Spotify artwork is displayed at its original proportions with links back to Spotify. DM Sans and Instrument Serif are provided by Google Fonts, with system fallbacks.

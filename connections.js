@@ -61,7 +61,7 @@ export class DesktopConnection extends EventTarget {
       this.error=error.message; this.state={sessions:[],track:null};
     }
     this.notify();
-    if(this.active && generation===this.generation) this.timer=setTimeout(()=>this.refresh(),this.error?5000:1500);
+    if(this.active && generation===this.generation) this.timer=setTimeout(()=>this.refresh(),this.hidden?10000:this.error?5000:2500);
   }
   async control(command,position) {
     if(!this.active || !this.sessionId || this.busy) return;

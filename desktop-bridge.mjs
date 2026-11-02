@@ -23,6 +23,7 @@ export class DesktopBridge {
         if (!entry) return;
         clearTimeout(entry.timer); this.pending.delete(response.id);
         response.error ? entry.reject(new Error(response.error)) : entry.resolve(response.result);
+        if(!this.pending.size) this.idle=setTimeout(()=>this.stop(),20000).unref();
       });
       child.stdin.on('error', () => this.stop('The Windows media connection closed. Try connecting again.'));
       child.on('error', () => this.stop('Windows media controls could not start. Check that Windows PowerShell is available.'));
@@ -34,6 +35,7 @@ export class DesktopBridge {
     try { await this.starting; } finally { this.starting = null; }
   }
   async request(command, sessionId = '', position) {
+    clearTimeout(this.idle);
     await this.start();
     return new Promise((resolve, reject) => {
       const id = ++this.sequence;
@@ -43,6 +45,7 @@ export class DesktopBridge {
     });
   }
   stop(message = 'Desktop connection closed.') {
+    clearTimeout(this.idle);
     const child = this.child; this.child = null;
     child?.stdin.end(); child?.kill();
     for (const entry of this.pending.values()) { clearTimeout(entry.timer); entry.reject(new Error(message)); }

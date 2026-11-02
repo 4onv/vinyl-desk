@@ -2,6 +2,7 @@ export const demos = [
   { title: 'Golden hour', artist: 'The Quiet Hours', cover: 'assets/cover-0.svg', url: 'assets/track-0.wav', color: '#d8814c' },
   { title: 'Quiet orbit', artist: 'The Quiet Hours', cover: 'assets/cover-1.svg', url: 'assets/track-1.wav', color: '#698d9a' },
   { title: 'After the rain', artist: 'The Quiet Hours', cover: 'assets/cover-2.svg', url: 'assets/track-2.wav', color: '#9280af' },
+  { title: 'Scratch study', artist: 'Side A Originals', cover: 'assets/scratch-cover.svg', url: 'assets/scratch-study.wav', color: '#b96b46', bpm:96 },
 ];
 export const formatTime = seconds => Number.isFinite(seconds) ? `${Math.floor(seconds / 60)}:${String(Math.floor(seconds % 60)).padStart(2, '0')}` : '0:00';
 export const acceptsAudio = file => file.type?.startsWith('audio/') || /\.(mp3|wav|ogg|m4a|aac|flac|opus|webm)$/i.test(file.name);
@@ -9,14 +10,14 @@ export class AudioDeck extends EventTarget {
   constructor() {
     super(); this.tracks = [...demos]; this.index = 0; this.audio = new Audio();
     this.audio.preload = 'metadata'; this.audio.volume = .65; this.error = '';
-    for (const name of ['play', 'pause', 'timeupdate', 'loadedmetadata', 'volumechange', 'durationchange']) this.audio.addEventListener(name, () => this.notify());
+    for (const name of ['play', 'pause', 'timeupdate', 'loadedmetadata', 'volumechange', 'durationchange']) this.audio.addEventListener(name, () => this.notify(name));
     this.audio.addEventListener('error', () => { this.error = 'This audio file could not be played. Try an MP3, WAV, or OGG file.'; this.notify(); });
     this.audio.addEventListener('ended', () => this.load((this.index + 1) % this.tracks.length, true));
     this.audio.src = this.track.url;
   }
   get track() { return this.tracks[this.index]; }
   get playing() { return !this.audio.paused && !this.audio.ended; }
-  notify() { this.dispatchEvent(new Event('change')); }
+  notify(reason) { const event=new Event('change');event.reason=reason;this.dispatchEvent(event); }
   async play() {
     this.error = '';
     try { if (this.context?.state === 'suspended') await this.context.resume(); await this.audio.play(); }

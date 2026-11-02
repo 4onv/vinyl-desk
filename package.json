@@ -1,13 +1,13 @@
 {
   "name": "vinyl-desk",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "private": true,
   "type": "module",
-  "description": "A tactile vinyl player for your own music.",
+  "description": "A vinyl listening desk with Spotify playback, recent album sleeves, and local scratching.",
   "scripts": {
     "start": "node server.mjs",
     "test": "node --test",
-    "check": "node --check app.js && node --check audio.js && node --check connections.js && node --check server.mjs && node --check desktop-bridge.mjs"
+    "check": "node check.mjs"
   },
   "engines": {
     "node": ">=20"

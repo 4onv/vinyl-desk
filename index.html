@@ -1,46 +1,79 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#f3eee5"><meta name="description" content="Your music, a different feeling. A tactile record player for local files, Windows music apps, and music share links."><title>Side A — A little ritual for your music</title><link rel="icon" href="assets/cover-0.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="connections.css"></head>
-<body>
-<header><a class="brand" href="./" aria-label="Side A home"><span class="brand-record"></span>side a<span class="brand-dot">®</span></a><span class="header-note">A LITTLE RITUAL FOR YOUR MUSIC</span><button class="button import">↗ &nbsp; Bring your own</button></header>
+<head>
+ <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta name="theme-color" content="#f3eee5"><meta name="description" content="Your Spotify, on vinyl. A quiet listening desk with direct playback, recent album sleeves, and local scratch practice.">
+ <title>Side A — A little ritual for your music</title>
+ <link rel="icon" href="assets/cover-0.svg" type="image/svg+xml">
+ <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="connections.css"><link rel="stylesheet" href="player.css">
+</head>
+<body class="low-power">
+<header>
+ <a class="brand" href="./" aria-label="Side A home"><span class="brand-record"></span>side a<span class="brand-dot">®</span></a>
+ <span class="header-note">A LITTLE RITUAL FOR YOUR MUSIC</span>
+ <div class="header-actions"><button class="text-button" id="low-power" aria-pressed="true">◦ Low-power on</button><button class="button import">Local audio ↗</button></div>
+</header>
 <main>
- <section class="intro"><div><p class="eyebrow">THE LISTENING DESK / VOL. 01</p><h1>Make time<br>for a <em>good record.</em></h1></div><p>Pick something you love.<br>Put the needle down.<br>Let the world wait a little.</p></section>
+ <section class="intro"><div><p class="eyebrow">THE LISTENING DESK / VOL. 02</p><h1>Make time<br>for a <em>good record.</em></h1></div><p>Something you love.<br>A sleeve to remember it by.<br>A little room to listen.</p></section>
  <section class="source-panel" aria-label="Music connections">
-  <div class="source-summary"><span class="source-icon" aria-hidden="true">◎</span><div><p id="source-name">From your record crate</p><p id="source-detail">Your files, or a little something from us.</p></div></div>
-  <div class="source-actions"><button class="text-button" id="back-to-crate" hidden>Back to local records</button><button class="button" id="connect-music">Connect your music ↗</button></div>
-  <div id="desktop-options" hidden><label for="desktop-player">Listening through</label><select id="desktop-player"><option value="">Choose a player</option></select><p id="connection-status" role="status" aria-live="polite"></p></div>
+  <div class="source-summary"><span class="source-icon" aria-hidden="true">◎</span><div><p id="source-name">A little something from us</p><p id="source-detail">Connect Spotify to play your music right here.</p></div></div>
+  <div class="source-actions"><button class="text-button" id="back-to-crate" hidden>Local records</button><button class="button" id="connect-music">Connect Spotify ↗</button></div>
+  <div id="desktop-options" hidden><label for="desktop-player">Listening through</label><select id="desktop-player"><option value="">Choose a player</option></select><p id="connection-status" role="status"></p></div>
  </section>
  <section class="listening-layout" aria-label="Record player">
-  <div class="turntable-area"><div class="surface-caption"><span><i class="status-light"></i> <span id="deck-state">READY WHEN YOU ARE</span></span><span>33⅓ RPM · STEREO</span></div>
+  <div class="turntable-area">
+   <div class="surface-caption"><span><i class="status-light"></i> <span id="deck-state">READY WHEN YOU ARE</span></span><span>33⅓ RPM · STEREO</span></div>
    <div class="turntable" id="drop-zone">
-    <div class="platter"><div class="record" id="record"><div class="record-shine"></div><div class="record-label"><span>SIDE A</span><img id="record-cover" src="assets/cover-0.svg" alt="Golden hour record label"><small>THE QUIET HOURS</small><b class="spindle"></b></div></div></div>
+    <div class="platter"><div class="record" id="record" role="slider" tabindex="0" aria-label="Record scrubber" aria-valuemin="0" aria-valuemax="48" aria-valuenow="0" aria-describedby="deck-hint"><div class="record-shine"></div><div class="record-label"><span>SIDE A</span><img id="record-cover" src="assets/cover-0.svg" alt="" draggable="false"><small id="record-label-text">ORIGINAL PRESSING</small><b class="spindle"></b></div></div></div>
     <button class="tonearm" id="needle" aria-label="Lower needle and play" title="Lift or lower the needle"><span class="pivot"></span><span class="arm"></span><span class="cartridge"></span></button>
-    <div class="deck-brand">SA—01<small>ANALOG STATE OF MIND</small></div><button class="power" id="power" aria-label="Play record"><span></span></button><div class="deck-foot left"></div><div class="deck-foot right"></div>
+    <div class="deck-brand">SA—02<small>ANALOG STATE OF MIND</small></div><button class="power" id="power" aria-label="Play record"><span></span></button><div class="deck-foot left"></div><div class="deck-foot right"></div>
    </div>
-   <p class="hint" id="deck-hint">Drag a sleeve onto the turntable, or tap a record to play.</p>
-   <section id="link-section" class="link-section" aria-label="Connected music player" hidden><div class="link-heading"><span id="link-provider"></span><a id="open-provider" target="_blank" rel="noopener noreferrer">Open in music service ↗</a></div><div id="link-player"></div><p class="embed-note">Playback is provided by the music service. Sign-in, previews, and availability depend on your account and browser. If the player stays blank, use the service link above.</p></section>
+   <p class="hint" id="deck-hint">Grab the record. Move it back and forth. Make it yours.</p>
+   <section id="link-section" class="link-section" aria-label="Connected music player" hidden><div class="link-heading"><span id="link-provider"></span><a id="open-provider" target="_blank" rel="noopener noreferrer">Open in music service ↗</a></div><div id="link-player"></div><p class="embed-note">The service provides playback. Sign-in, previews, and availability depend on your account and browser.</p></section>
   </div>
-  <aside class="now-playing"><p class="eyebrow">ON THE TURNTABLE</p><div class="sleeve-wrap"><img id="sleeve" src="assets/cover-0.svg" alt="Golden hour album artwork"></div><div class="track-heading"><div><h2 id="title">Golden hour</h2><p id="artist">The Quiet Hours</p></div><span class="side-badge">A1</span></div>
+  <aside class="now-playing">
+   <p class="eyebrow">ON THE TURNTABLE</p><div class="sleeve-wrap"><img id="sleeve" src="assets/cover-0.svg" alt="Golden hour artwork"></div>
+   <div class="track-heading"><div><h2 id="title">Golden hour</h2><p id="artist">The Quiet Hours</p></div><span class="side-badge">A1</span></div>
+   <a id="track-link" class="spotify-credit" target="_blank" rel="noopener noreferrer" aria-label="Listen on Spotify" hidden><img src="assets/spotify-logo.svg" alt="Spotify" width="70" height="20"> ↗</a>
    <div class="seek-labels"><span id="elapsed">0:00</span><span id="duration">0:48</span></div><input id="seek" type="range" value="0" min="0" max="48" step="0.1" aria-label="Playback position">
-   <div class="transport"><button id="repeat" class="icon-button" aria-label="Repeat track" aria-pressed="false">↻</button><button id="previous" class="icon-button" aria-label="Previous track">Ⅰ◀</button><button id="play" class="play" aria-label="Play">▶</button><button id="next" class="icon-button" aria-label="Next track">▶Ⅰ</button><span class="speed-label">33⅓</span></div>
+   <div class="transport"><button id="repeat" class="icon-button" aria-label="Repeat track" aria-pressed="false">↻</button><button id="previous" class="icon-button" aria-label="Previous track">Ⅰ◀</button><button id="play" class="play" aria-label="Play">▶</button><button id="next" class="icon-button" aria-label="Next track">▶Ⅰ</button><span class="speed-label" title="Platter revolutions per minute, not song tempo">33⅓<br><small>RPM</small></span></div>
    <div class="volume-row"><span aria-hidden="true">◖))</span><input id="volume" type="range" min="0" max="1" value=".65" step=".01" aria-label="Volume"><output id="volume-value">65%</output></div>
-   <p id="control-note" class="control-note" hidden></p>
+   <div class="tempo-row"><div><strong id="bpm">—</strong><span> BPM <small id="bpm-kind">SONG TEMPO</small></span></div><button id="tap-tempo" class="text-button" title="Tap at least four beats to measure the tempo">Tap tempo</button></div>
+   <p id="control-note" class="control-note">Drag the record to scratch local audio. The platter’s RPM is separate from song BPM.</p>
   </aside>
  </section>
- <section class="collection"><div class="section-heading"><div><p class="eyebrow">GOOD THINGS, ON REPEAT</p><h2>Your record crate<span id="count">03</span></h2></div><p>Original ambient sketches.<br>Room for your favorites.</p></div><div class="crate" id="crate"></div></section>
+ <section class="collection">
+  <div class="section-heading"><div><p class="eyebrow">THE ONES YOU COME BACK TO</p><h2>Recently on your turntable<span id="count">00</span></h2></div><p>Your latest albums.<br>One sleeve for each record.</p></div>
+  <div id="crate-empty" class="crate-empty"><div class="empty-vinyl" aria-hidden="true"></div><div><h3>Your last listen belongs here.</h3><p>Connect Spotify and your recently played albums become records in your crate. No uploads.</p><button class="button filled" id="crate-connect">Connect Spotify ↗</button><button class="text-button" id="try-scratch">Try a scratch record</button></div></div>
+  <div class="crate vinyl-crate" id="crate"></div><p id="history-note" class="privacy-note"></p><a id="crate-spotify-link" class="spotify-credit" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" hidden>Explore more on Spotify ↗</a>
+ </section>
+ <section id="spotify-search-section" class="search-section" hidden aria-label="Find Spotify music">
+  <form id="spotify-search-form"><label for="spotify-search">Find your next record <span>on Spotify</span></label><div class="link-input-row"><input id="spotify-search" type="search" placeholder="An album, a song, an artist…" maxlength="150" required><button class="button" type="submit">Search</button></div></form>
+  <p id="search-status" role="status" class="privacy-note"></p><div id="search-results" class="search-results"></div>
+ </section>
+ <details class="local-section"><summary>Local records & scratch practice <span>No account needed · 4 original records</span></summary><p>Spin these records forward or backward to hear the scratch. Your own audio works here too.</p><div id="local-crate" class="crate"></div><button class="button import">Open local audio ↗</button></details>
  <div class="notice" id="notice" role="status" aria-live="polite"></div>
 </main>
 <footer><span>LESS SCROLLING. MORE LISTENING.</span><span>Your imported music stays on this device.</span><button class="text-button" id="help">Keyboard shortcuts ↗</button></footer>
 <input id="files" type="file" accept="audio/*,.mp3,.wav,.ogg,.m4a,.flac" multiple hidden>
-<dialog id="shortcuts"><h2>Take it slow.</h2><p><kbd>Space</kbd> Play / pause</p><p><kbd>←</kbd> Back 5 seconds &nbsp; <kbd>→</kbd> Forward 5 seconds</p><p>Click the tonearm to lift or lower the needle.<br>Imported files stay in this tab until you close it.</p><form method="dialog"><button class="button">Back to the music</button></form></dialog>
-<script type="module" src="app.js"></script>
+<dialog id="shortcuts"><h2>Take it slow.</h2><p><kbd>Space</kbd> Play / pause</p><p><kbd>←</kbd> Back 5 seconds &nbsp; <kbd>→</kbd> Forward 5 seconds</p><p>Drag the record in either direction. Local records scratch; Spotify records seek when released.</p><p>Tap tempo on the beat at least four times to measure BPM. Spotify does not supply automatic tempo to this app.</p><form method="dialog"><button class="button">Back to the music</button></form></dialog>
 <dialog id="connections" aria-labelledby="connections-title">
  <form method="dialog" class="dialog-close"><button class="icon-button" aria-label="Close connections">×</button></form>
  <p class="eyebrow">A PLACE FOR YOUR FAVORITES</p><h2 id="connections-title">Your music.<br><em>A different feeling.</em></h2>
- <section class="desktop-card"><span class="connection-tag">WINDOWS · NO DEVELOPER ACCOUNT</span><h3>Follow your desktop player</h3><p>Play a song in Spotify, then let Side A take the controls. Other apps work too when they share playback with Windows.</p><button class="button filled" id="connect-desktop">Connect to Windows</button>
-  <div id="local-setup" hidden><ol><li><a href="https://github.com/4onv/vinyl-desk/archive/refs/heads/main.zip">Download Side A</a> and extract the ZIP.</li><li>Install <a href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer">Node.js 20 or newer</a>, then double-click <strong>Start.cmd</strong>.</li><li>Start a song in Spotify. In the local Side A window, choose <strong>Connect to Windows</strong>.</li></ol><p>The desktop connection runs on your PC. This hosted page cannot read your Windows players.</p></div>
+ <section class="desktop-card spotify-card">
+  <span class="connection-tag">SPOTIFY PREMIUM · PLAYS RIGHT HERE</span><h3>Your Spotify, on vinyl.</h3>
+  <p>Sign in, pick a recent album, and listen in Side A. The Spotify desktop app can stay closed.</p>
+  <div class="connection-buttons"><button class="button filled" id="spotify-connect">Sign in with Spotify</button><button class="text-button" id="spotify-disconnect" hidden>Disconnect</button></div>
+  <p id="spotify-status" role="status"></p>
+  <details class="setup-details"><summary>Connection settings</summary><label for="spotify-client">Public Spotify Client ID</label><input id="spotify-client" type="text" autocomplete="off" spellcheck="false" maxlength="32"><p>This app is in Spotify development mode. Your account must have Premium and access to the registered app.</p><p>Using your own developer app? Register this exact redirect:</p><code id="spotify-redirect"></code><p>Side A uses secure sign-in without a client secret. Sign-in tokens stay in this tab; Disconnect clears them and your Spotify crate.</p></details>
  </section>
- <div class="connection-divider"><span>OR PASTE SOMETHING YOU LOVE</span></div>
- <form id="music-link-form"><label for="music-link">Spotify · Apple Music · SoundCloud · YouTube</label><div class="link-input-row"><input id="music-link" type="text" inputmode="url" autocomplete="off" placeholder="Paste a music share link…" required><button class="button filled" type="submit">Load player</button></div><p id="link-error" class="form-error" role="alert"></p><p class="privacy-note">Loads the service’s official player when you submit. Some players offer previews. Your music files and desktop connection stay local.</p></form>
+ <details class="other-connections"><summary>Other ways to listen</summary>
+  <section class="desktop-card"><span class="connection-tag">WINDOWS · FOLLOW AN OPEN MUSIC APP</span><h3>Follow your desktop player</h3><p>Display and control Spotify, Apple Music, or another app that shares playback with Windows. Audio stays in that app.</p><button class="button" id="connect-desktop">Connect to Windows</button>
+   <div id="local-setup" hidden><ol><li><a href="https://github.com/4onv/vinyl-desk/archive/refs/heads/main.zip">Download Side A</a> and extract the ZIP.</li><li>Install <a href="https://nodejs.org/en/download" target="_blank" rel="noopener noreferrer">Node.js 20 or newer</a>, then double-click <strong>Start.cmd</strong>.</li><li>Choose <strong>Connect to Windows</strong> in the local app.</li></ol></div>
+  </section>
+  <div class="connection-divider"><span>OR PASTE SOMETHING YOU LOVE</span></div>
+  <form id="music-link-form"><label for="music-link">Spotify · Apple Music · SoundCloud · YouTube</label><div class="link-input-row"><input id="music-link" type="text" inputmode="url" autocomplete="off" placeholder="Paste a music share link…" required><button class="button filled" type="submit">Load player</button></div><p id="link-error" class="form-error" role="alert"></p><p class="privacy-note">Spotify music links play directly when connected. Other services use their official players; previews may apply.</p></form>
+ </details>
 </dialog>
+<script type="module" src="app.js"></script>
 </body></html>
